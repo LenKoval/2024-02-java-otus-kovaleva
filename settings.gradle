@@ -1,0 +1,3 @@
+rootProject.name = '_2024-02-java-otus-kovaleva'
+include 'hm01-testing'
+

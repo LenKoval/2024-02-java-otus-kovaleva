@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
-import org.mockito.ArgumentMatcher;
 import org.mockito.Mockito;
 import ru.otus.pro.kovaleva.dao.AgreementDao;
 import ru.otus.pro.kovaleva.entity.Agreement;
@@ -13,8 +12,7 @@ import ru.otus.pro.kovaleva.service.impl.AgreementServiceImpl;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.argThat;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class AgreementServiceImplTest {
     private AgreementDao dao = Mockito.mock(AgreementDao.class);
@@ -22,12 +20,12 @@ public class AgreementServiceImplTest {
     AgreementServiceImpl agreementServiceImpl;
 
     @BeforeEach
-    void init() {
+    public void init() {
         agreementServiceImpl = new AgreementServiceImpl(dao);
     }
 
     @Test
-    void testFindByName() {
+    public void testFindByName() {
         String name = "test";
         Agreement agreement = new Agreement();
         agreement.setId(10L);
@@ -43,7 +41,7 @@ public class AgreementServiceImplTest {
     }
 
     @Test
-    void testFindByNameWithCaptor() {
+    public void testFindByNameWithCaptor() {
         String name = "test";
         Agreement agreement = new Agreement();
         agreement.setId(10L);
@@ -62,17 +60,19 @@ public class AgreementServiceImplTest {
     }
 
     @Test
-    void addAgreementTest() {
+    public void addAgreementTest() {
         String name = "test";
         Agreement agreement = new Agreement();
         agreement.setId(10L);
+        agreement.setName(name);
 
-        ArgumentMatcher<Agreement> matcher = argument -> argument != null && name.equals(argument.getName());
+        ArgumentCaptor<Agreement> captor = ArgumentCaptor.forClass(Agreement.class);
+        when(dao.save(captor.capture())).thenReturn(agreement);
 
-        when(dao.save(argThat(matcher))).thenReturn(agreement);
+        Agreement agreement1 = agreementServiceImpl.addAgreement(name);
 
-        Agreement result = agreementServiceImpl.addAgreement("test");
-        assertEquals(agreement, result);
-        //verify?
+        assertEquals("test", captor.getValue().getName());
+        assertEquals(10, agreement1.getId());
+        assertEquals(name, agreement1.getName());
     }
 }

@@ -19,8 +19,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class AccountServiceImplTest {
@@ -31,7 +30,7 @@ public class AccountServiceImplTest {
     AccountServiceImpl accountServiceImpl;
 
     @Test
-    void testTransfer() {
+    public void testTransfer() {
         Account sourceAccount = new Account();
         sourceAccount.setAmount(new BigDecimal(100));
 
@@ -48,7 +47,7 @@ public class AccountServiceImplTest {
     }
 
     @Test
-    void testSourceNotFound() {
+    public void testSourceNotFound() {
         when(accountDao.findById(any())).thenReturn(Optional.empty());
 
         AccountException result =
@@ -58,7 +57,7 @@ public class AccountServiceImplTest {
 
 
     @Test
-    void testTransferWithVerify() {
+    public void testTransferWithVerify() {
         Account sourceAccount = new Account();
         sourceAccount.setAmount(new BigDecimal(100));
         sourceAccount.setId(1L);
@@ -83,7 +82,7 @@ public class AccountServiceImplTest {
     }
 
     @Test
-    void testAddAccount() {
+    public void testAddAccount() {
         Agreement agreement = new Agreement();
         agreement.setId(10L);
         String accNumber = "number";
@@ -107,7 +106,7 @@ public class AccountServiceImplTest {
     }
 
     @Test
-    void testGetAllAccounts() {
+    public void testGetAllAccounts() {
         Account account1 = new Account();
         account1.setId(10L);
         account1.setAmount(new BigDecimal(20));
@@ -127,7 +126,7 @@ public class AccountServiceImplTest {
     }
 
     @Test
-    void testCharge() {
+    public void testCharge() {
         Account account = new Account();
         account.setId(10L);
         BigDecimal amount = new BigDecimal(200);
@@ -140,7 +139,13 @@ public class AccountServiceImplTest {
         assertEquals(amount.subtract(chargeAmount), account.getAmount());
         verify(accountDao).findById(10L);
         verify(accountDao).save(account);
+    }
 
-        //assertThrows(AccountException.class, () -> accountServiceImpl.charge(20L, chargeAmount));
+    @Test
+    public void TestChargeException() {
+        BigDecimal chargeAmount = new BigDecimal(20);
+        when(accountDao.findById(anyLong())).thenReturn(Optional.empty());
+        assertThrows(AccountException.class, () -> accountServiceImpl.charge(20L, chargeAmount));
+        verify(accountDao, never()).save(any());
     }
 }

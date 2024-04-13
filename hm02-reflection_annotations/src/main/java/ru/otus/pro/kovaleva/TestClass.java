@@ -16,6 +16,11 @@ public class TestClass {
         System.out.println("test run - after");
     }
 
+    @AfterSuite
+    public void afterFailed() {
+        System.out.println("test run - afterFailed");
+    }
+
     @Test(priority = 2)
     public void test1() {
         System.out.println("test run - test1");

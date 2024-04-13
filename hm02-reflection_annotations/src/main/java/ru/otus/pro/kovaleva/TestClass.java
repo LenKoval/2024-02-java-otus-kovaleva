@@ -35,6 +35,11 @@ public class TestClass {
         System.out.println("test run - test3");
     }
 
+    @Test(priority = 15)
+    public void test4() {
+        System.out.println("test run - test4");
+    }
+
     @Test
     public void exTest() {
         throw new RuntimeException();

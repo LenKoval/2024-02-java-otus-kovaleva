@@ -22,20 +22,26 @@ public class TestRunning {
             Object instance = constructor.newInstance();
 
 
-        startSingleMethod(clazz, BeforeSuite.class, instance);
+            startSingleMethod(clazz, BeforeSuite.class, instance);
 
-        List<Method> tests = getMethodByAnnotation(clazz, Test.class);
-        tests.sort(Comparator.comparingInt((Method method) -> method.getAnnotation(Test.class).priority()).reversed());
+            List<Method> tests = getMethodByAnnotation(clazz, Test.class);
 
-        for(Method test : tests) {
-            if (executeMethod(test, instance)) {
-                testsSuccess++;
-            } else {
-                testFailed++;
+            for (Method test : tests) {
+                if (test.getAnnotation(Test.class).priority() < 1 || test.getAnnotation(Test.class).priority() > 10) {
+                    throw new TestException("Tests cannot be completed!");
+                }
             }
-        }
+            tests.sort(Comparator.comparingInt((Method method) -> method.getAnnotation(Test.class).priority()).reversed());
 
-        startSingleMethod(clazz, AfterSuite.class, instance);
+            for (Method test : tests) {
+                if (executeMethod(test, instance)) {
+                    testsSuccess++;
+                } else {
+                    testFailed++;
+                }
+            }
+
+            startSingleMethod(clazz, AfterSuite.class, instance);
         } catch (NoSuchMethodException | InvocationTargetException | InstantiationException | IllegalAccessException e) {
             throw new TestException("Tests cannot be completed!");
         }

@@ -26,19 +26,11 @@ public class ThreadPool {
         for (ThreadWorker thread : threadWorker) {
             thread.interrupt();
         }
-
-        for (ThreadWorker thread : threadWorker) {
-            try {
-                thread.join();
-            } catch (InterruptedException e) {
-                throw new IllegalStateException("Trying to pass the job to a destroyed thread pool.");
-            }
-        }
     }
 
     public void execute(Runnable task) {
-        if (!canWork) {
-            throw new IllegalStateException("Cannot execute, thread pool has been shut down.");
+        if (task == null || !canWork) {
+            throw new IllegalStateException("Cannot execute, thread pool has been shut down or task is null.");
         }
 
         synchronized (tasks) {

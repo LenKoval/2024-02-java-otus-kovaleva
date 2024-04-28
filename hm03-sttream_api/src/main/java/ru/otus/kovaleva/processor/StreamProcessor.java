@@ -8,32 +8,43 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class StreamProcessor {
-    private static List<Task> getListTasksBySelectedStatus(List<Task> tasks, StatusTask statusTask) {
+    public static List<Task> getListTasks(List<Task> tasks, StatusTask statusTask) {
+        if (checkList(tasks) || statusTask == null) {
+            throw new IllegalStateException("List is empty or status task is null.");
+        }
         return tasks.stream()
                 .filter(task -> task.getStatusTask() == statusTask)
                 .collect(Collectors.toList());
     }
 
-    private static boolean checkTaskWithSpecifiedID(List<Task> tasks, int id) {
+    public static boolean checkTask(List<Task> tasks, int id) {
+        if (checkList(tasks) || id < 0) {
+            throw new IllegalStateException("List is empty or entered id cannot be less than zero.");
+        }
         return tasks.stream()
                 .anyMatch(task -> task.getId() == id);
     }
 
-    private static List<Task> getListTasksSortedByStatus(List<Task> tasks) {
+    public static List<Task> getListTasksSorted(List<Task> tasks) {
+        if (checkList(tasks)) {
+            throw new IllegalStateException("List is empty.");
+        }
         return tasks.stream()
                 .sorted(Comparator.comparing(Task::getStatusTask).reversed())
                 .collect(Collectors.toList());
     }
 
-    private static int countNumberTasksByCertainStatus(List<Task> tasks, StatusTask statusTask) {
+    public static int countNumberTasks(List<Task> tasks, StatusTask statusTask) {
+        if (checkList(tasks) || statusTask == null) {
+            throw new IllegalStateException("List is empty or status task is null.");
+        }
         return (int) tasks.stream().filter(task -> task.getStatusTask() == statusTask).count();
     }
 
-    public static void printMethodsResults(List<Task> tasks, int id1, int id2, StatusTask statusTask) {
-        System.out.println("Check task with specified ID = " + id1 + ": " + checkTaskWithSpecifiedID(tasks, id1)
-                + "\nCheck task with specified ID = " + id2 + ": " + checkTaskWithSpecifiedID(tasks, id2)
-                + "\nGet the list of tasks by selected status: " + getListTasksBySelectedStatus(tasks, statusTask)
-                + "\nCount tasks by a certain status: " + countNumberTasksByCertainStatus(tasks, statusTask)
-                + "\nGet the list of tasks sorted by status: " + getListTasksSortedByStatus(tasks));
+    private static boolean checkList(List<Task> tasks) {
+        if (tasks.isEmpty()) {
+            return true;
+        }
+        return false;
     }
 }

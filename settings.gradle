@@ -1,4 +1,5 @@
 rootProject.name = '_2024-02-java-otus-kovaleva'
 include 'hm01-testing'
-include 'hm03-sttream_api'
+include 'hm03-stream_api'
+include 'hm02-reflection_annotations'
 

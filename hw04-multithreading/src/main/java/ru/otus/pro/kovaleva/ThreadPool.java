@@ -7,7 +7,7 @@ import java.util.Queue;
 public class ThreadPool {
     private final Queue<Runnable> tasks = new LinkedList<>();
     private final ThreadWorker[] threadWorker;
-    private boolean canWork = true;
+    private volatile boolean canWork = true;
 
     public ThreadPool(int threadsNumber) {
         if (threadsNumber <= 0) {
@@ -40,21 +40,26 @@ public class ThreadPool {
     }
 
     private class ThreadWorker extends Thread {
+        private final Object lock = new Object();
         @Override
         public void run() {
             while (canWork) {
                 Runnable task;
-                synchronized (tasks) {
+                synchronized (lock) {
                     while (tasks.isEmpty()) {
                         try {
-                            tasks.wait();
+                            lock.wait();
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
                     }
                     task = tasks.poll();
                 }
-                task.run();
+                try {
+                    task.run();
+                } catch (RuntimeException e) {
+                    throw new IllegalStateException("Thread pool interrupted " + e.getMessage());
+                }
             }
         }
     }

@@ -7,6 +7,7 @@ import java.util.Queue;
 public class ThreadPool {
     private final Queue<Runnable> tasks = new LinkedList<>();
     private final ThreadWorker[] threadWorker;
+    private final Object lock = new Object();
     private volatile boolean canWork = true;
 
     public ThreadPool(int threadsNumber) {
@@ -33,14 +34,13 @@ public class ThreadPool {
             throw new IllegalStateException("Cannot execute, thread pool has been shut down or task is null.");
         }
 
-        synchronized (tasks) {
+        synchronized (lock) {
             tasks.offer(task);
-            tasks.notify();
+            lock.notify();
         }
     }
 
     private class ThreadWorker extends Thread {
-        private final Object lock = new Object();
         @Override
         public void run() {
             while (canWork) {

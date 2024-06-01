@@ -1,33 +1,33 @@
 package ru.otus.pro.kovaleva;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@ToString(includeFieldNames = true)
 @RepositoryTable(title = "accounts")
 public class Account {
+
     @RepositoryIdField
-    @RepositoryField
+    @RepositoryField(name = "id")
     private Long id;
 
-    @RepositoryField
+    @RepositoryField(name = "amount")
     private Long amount;
 
-    @RepositoryField // TODO (name = "tp");
+    @RepositoryField(name = "account_type")
     private String accountType;
 
-    @RepositoryField
+    @RepositoryField(name = "status")
     private String status;
 
     public Account(Long amount, String accountType, String status) {
         this.amount = amount;
         this.accountType = accountType;
         this.status = status;
-    }
-
-    @Override
-    public String toString() {
-        return "Account{" +
-                "id=" + id +
-                ", amount=" + amount +
-                ", accountType='" + accountType + '\'' +
-                ", status='" + status + '\'' +
-                '}';
     }
 }

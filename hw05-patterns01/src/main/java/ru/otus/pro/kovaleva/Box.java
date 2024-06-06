@@ -36,17 +36,13 @@ public final class Box implements Iterable<String> {
         }
 
         private String getElements() {
-            if (current == 1) {
-                return one.get(index++);
-            } else if (current == 2) {
-                return two.get(index++);
-            } else if (current == 3) {
-                return three.get(index++);
-            } else if (current == 4) {
-                return four.get(index++);
-            } else {
-                return null;
-            }
+            return switch (current) {
+                case 1 -> one.get(index++);
+                case 2 -> two.get(index++);
+                case 3 -> three.get(index++);
+                case 4 -> four.get(index++);
+                default -> null;
+            };
         }
 
         @Override

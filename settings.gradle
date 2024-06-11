@@ -4,3 +4,5 @@ include 'hm02-reflection_annotations'
 include 'hm03-sttream_api'
 include 'hw04-multithreading'
 include 'hw05-patterns01'
+include 'hw06-patterns02'
+

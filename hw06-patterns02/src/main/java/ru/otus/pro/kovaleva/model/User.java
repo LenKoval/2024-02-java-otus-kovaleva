@@ -1,4 +1,4 @@
-package ru.otus.pro.kovaleva;
+package ru.otus.pro.kovaleva.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

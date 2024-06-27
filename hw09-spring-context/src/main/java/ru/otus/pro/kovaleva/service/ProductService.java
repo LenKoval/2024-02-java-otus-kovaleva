@@ -5,9 +5,8 @@ import ru.otus.pro.kovaleva.model.Product;
 import java.util.List;
 
 public interface ProductService {
-    List<String> getProductList();
-
-    Product getProductById(Long id);
-
-    void deleteById(Long id);
+    List<Product> getProductList();
+    void save(Product product);
+    Product getProductById(int id);
+    void deleteProduct(int id);
 }

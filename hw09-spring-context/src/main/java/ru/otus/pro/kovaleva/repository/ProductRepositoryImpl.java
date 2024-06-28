@@ -3,12 +3,12 @@ package ru.otus.pro.kovaleva.repository;
 import org.springframework.stereotype.Component;
 import ru.otus.pro.kovaleva.model.Product;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
 public class ProductRepositoryImpl implements ProductRepository {
-    private final List<Product> productList = new LinkedList<>();
+    private final List<Product> productList = new ArrayList<>();
 
     {
         productList.add(new Product(1, "Product1", 248));
@@ -31,7 +31,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     @Override
     public void save(Product product) {
         if (product.getId() == 0) {
-            int id = productList.getLast().getId() + 1;
+            int id = productList.get(productList.size() - 1).getId() + 1;
             product.setId(id);
         }
         productList.add(product);

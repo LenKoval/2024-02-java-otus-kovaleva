@@ -1,5 +1,7 @@
 package ru.otus.pro.kovaleva.service;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Lookup;
 import org.springframework.stereotype.Service;
 import ru.otus.pro.kovaleva.model.Cart;
@@ -9,6 +11,7 @@ import ru.otus.pro.kovaleva.repository.ProductRepositoryImpl;
 @Service
 public class CartServiceImpl implements CartService {
     private final ProductRepositoryImpl productRepository;
+    private static Logger logger = LogManager.getLogger(CartServiceImpl.class);
 
     public CartServiceImpl(ProductRepositoryImpl productRepository) {
         this.productRepository = productRepository;
@@ -17,11 +20,13 @@ public class CartServiceImpl implements CartService {
     @Lookup
     @Override
     public Cart getNewCart() {
+        logger.info("New Cart");
         return null;
     }
 
     @Override
     public void addProduct(Cart cart, Product product) {
+        logger.info("Add new product in cart.");
         cart.addProduct(product);
     }
 
@@ -33,6 +38,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public void delProduct(Cart cart, Product product) {
+        logger.info("Remove product.");
         cart.deleteProduct(product.getId());
     }
 

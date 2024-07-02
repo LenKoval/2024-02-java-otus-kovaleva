@@ -1,5 +1,7 @@
 package ru.otus.pro.kovaleva.service;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.context.annotation.Configuration;
 import ru.otus.pro.kovaleva.model.Cart;
 import ru.otus.pro.kovaleva.model.Product;
@@ -15,6 +17,7 @@ public class CartManagementProcessorImpl implements CartManagementProcessor {
     private CartServiceImpl cartService;
     private Cart cart;
     private boolean exit;
+    private static Logger logger = LogManager.getLogger(CartManagementProcessorImpl.class);
 
     public CartManagementProcessorImpl(ProductService productService, CartServiceImpl cartService) {
         this.productService = productService;
@@ -23,6 +26,7 @@ public class CartManagementProcessorImpl implements CartManagementProcessor {
 
     @Override
     public void run() {
+        logger.info("Application start.");
         cart = cartService.getNewCart();
         System.out.println("CART MANAGEMENT");
         printCommand();
@@ -36,8 +40,9 @@ public class CartManagementProcessorImpl implements CartManagementProcessor {
                 handleMessage(str);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.warn(e.getMessage());
         }
+        logger.info("Application close.");
     }
 
     private void handleMessage(String message) {

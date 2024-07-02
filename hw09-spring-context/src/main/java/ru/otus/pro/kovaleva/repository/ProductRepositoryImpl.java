@@ -1,5 +1,7 @@
 package ru.otus.pro.kovaleva.repository;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 import ru.otus.pro.kovaleva.model.Product;
 
@@ -8,9 +10,11 @@ import java.util.List;
 
 @Component
 public class ProductRepositoryImpl implements ProductRepository {
-    private final List<Product> productList = new ArrayList<>();
+    private final List<Product> productList;
+    private static Logger logger = LogManager.getLogger(ProductRepositoryImpl.class);
 
-    {
+    public ProductRepositoryImpl() {
+        productList = new ArrayList<>();
         productList.add(new Product(1, "Product1", 248));
         productList.add(new Product(2, "Product2", 10));
         productList.add(new Product(3, "Product3", 2547));
@@ -21,6 +25,7 @@ public class ProductRepositoryImpl implements ProductRepository {
         productList.add(new Product(8, "Product8", 22));
         productList.add(new Product(9, "Product9", 28));
         productList.add(new Product(10, "Product10", 236));
+        logger.info("Repository is complete.");
     }
 
     @Override
@@ -33,6 +38,7 @@ public class ProductRepositoryImpl implements ProductRepository {
         if (product.getId() == 0) {
             int id = productList.get(productList.size() - 1).getId() + 1;
             product.setId(id);
+            logger.info("Add new product " + product.getName() + " with new id " + id);
         }
         productList.add(product);
     }
@@ -41,16 +47,20 @@ public class ProductRepositoryImpl implements ProductRepository {
     public Product findById(int id) {
         for (Product p : productList) {
             if (p.getId() == id) {
+                logger.info("Find product " + p.getName());
                 return p;
             }
         }
+        logger.info("Product not found.");
         return null;
     }
 
     @Override
     public void deleteById(int id) {
         if (findById(id) != null) {
+            logger.info("Find product with id " + id);
             productList.remove(id);
         }
+        logger.info("Product with id = " + id + " not found.");
     }
 }

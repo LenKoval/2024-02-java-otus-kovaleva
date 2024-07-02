@@ -5,13 +5,17 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DataSource {
-    private static Connection connection;
+    private final String url;
+    private final String user;
+    private final String password;
 
-    public DataSource() throws SQLException {
-        connection = DriverManager.getConnection("jdbc:h2:mem:testdb", "sa", "");
+    public DataSource(String url, String user, String password) {
+        this.url = url;
+        this.user = user;
+        this.password = password;
     }
 
-    public Connection getConnection() {
-        return connection;
+    public Connection getConnection() throws SQLException {
+        return DriverManager.getConnection(url, user, password);
     }
 }

@@ -27,7 +27,7 @@ public class UserDao {
         this.insertPS = this.dataSource.getConnection().prepareStatement("INSERT INTO users (login, password, username) VALUES (?, ?, ?)");
         addUsers();
         this.selectPS = this.dataSource.getConnection().prepareStatement("SELECT username FROM users WHERE login = ? AND password = ?");
-        this.deletePS = this.dataSource.getConnection().prepareStatement("DELETE FROM users WHERE username = (?)");
+        this.deletePS = this.dataSource.getConnection().prepareStatement("DELETE FROM users WHERE username = ?");
         this.selectCountPS = this.dataSource.getConnection().prepareStatement("SELECT COUNT(*) FROM users WHERE login = ? OR password = ?");
     }
 
@@ -104,6 +104,7 @@ public class UserDao {
             dataSource.getConnection().commit();
         } catch (SQLException e) {
             dataSource.getConnection().rollback();
+            logger.error("Batch insert error: " + e.getLocalizedMessage());
         }
     }
 

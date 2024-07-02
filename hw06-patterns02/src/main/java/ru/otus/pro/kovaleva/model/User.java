@@ -1,9 +1,9 @@
 package ru.otus.pro.kovaleva.model;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 
-@Getter
+@Data
 @AllArgsConstructor
 public class User {
     private String login;

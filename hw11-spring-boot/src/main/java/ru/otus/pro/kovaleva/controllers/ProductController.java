@@ -19,7 +19,7 @@ public class ProductController {
 
     private final ProductService productService;
 
-    private static Logger logger = LoggerFactory.getLogger(ProductController.class);
+    private static final Logger logger = LoggerFactory.getLogger(ProductController.class);
 
     @GetMapping("{id}")
     public Product getProductById(@PathVariable String id){

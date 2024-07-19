@@ -69,11 +69,13 @@ public class OrderManagementProcessorImpl implements OrderManagementProcessor {
                     break;
                 case "customers" :
                     System.out.println(productService.printById(Long.parseLong(parts[1])));
+                    break;
                 case "delProduct" :
                     productService.deleteById(Long.parseLong(parts[1]));
                     break;
                 case "delCustomer" :
                     customerService.deleteById(Long.parseLong(parts[1]));
+                    break;
                 default: {
                     printCommand();
                 }

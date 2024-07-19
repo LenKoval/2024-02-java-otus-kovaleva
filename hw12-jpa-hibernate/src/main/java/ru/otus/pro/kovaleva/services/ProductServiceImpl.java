@@ -1,16 +1,16 @@
 package ru.otus.pro.kovaleva.services;
 
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.hibernate.SessionFactory;
 import ru.otus.pro.kovaleva.models.Product;
 import ru.otus.pro.kovaleva.util.EntityUtil;
 
 import java.util.List;
 
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class ProductServiceImpl implements EntityService<Product> {
 
-    private final SessionFactory sessionFactory;
+    private SessionFactory sessionFactory;
 
 
     @Override

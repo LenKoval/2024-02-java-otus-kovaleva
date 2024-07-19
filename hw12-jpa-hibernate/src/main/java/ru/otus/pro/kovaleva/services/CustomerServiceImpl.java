@@ -1,8 +1,6 @@
 package ru.otus.pro.kovaleva.services;
 
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.hibernate.SessionFactory;
 import ru.otus.pro.kovaleva.models.Customer;
 import ru.otus.pro.kovaleva.models.Order;
@@ -14,26 +12,20 @@ import java.util.List;
 @AllArgsConstructor
 public class CustomerServiceImpl implements EntityService<Customer> {
 
-    private final SessionFactory sessionFactory;
+    private SessionFactory sessionFactory;
 
 
     @Override
     public Customer save(String name, String id) {
         Customer customer = new Customer();
         customer.setName(name);
-        EntityUtil.insert(sessionFactory, customer);
-        addOrder(customer, id);
-        return customer;
-    }
-
-    private Order addOrder(Customer customer, String id) {
         Product product = EntityUtil.findOneById(sessionFactory, Product.class, Long.parseLong(id));
         Order order = new Order();
         order.setCustomer(customer);
         order.setProduct(product);
         order.setOrderPrice(product.getPrice());
         EntityUtil.insert(sessionFactory, order);
-        return order;
+        return customer;
     }
 
     @Override

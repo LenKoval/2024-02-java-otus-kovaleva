@@ -39,7 +39,7 @@ public class CustomerServiceImpl implements EntityService<Customer> {
     }
 
     @Override
-    public void deleteById(Long id) {
-        EntityUtil.deleteById(sessionFactory, Customer.class, id);
+    public boolean deleteById(Long id) {
+        return EntityUtil.deleteById(sessionFactory, Customer.class, id);
     }
 }

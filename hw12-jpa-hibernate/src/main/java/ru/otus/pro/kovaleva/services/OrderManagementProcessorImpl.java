@@ -53,12 +53,20 @@ public class OrderManagementProcessorImpl implements OrderManagementProcessor {
                     printCommand();
                     break;
                 case "newProduct" :
+                    if (parts.length < 3) {
+                        System.out.println("Usage: newProduct [product name] [price]");
+                        return;
+                    }
                     productService.save(parts[1], parts[2]);
                     break;
                 case "listProduct" :
                     printList(productService.printAll());
                     break;
                 case "newCustomer" :
+                    if (parts.length < 3) {
+                        System.out.println("Usage: newCustomer [product name] [price]");
+                        return;
+                    }
                     customerService.save(parts[1], parts[2]);
                     break;
                 case "listCustomer" :
@@ -84,9 +92,7 @@ public class OrderManagementProcessorImpl implements OrderManagementProcessor {
     }
 
     private static void printList(List<?> list) {
-        for (Object o : list) {
-            System.out.println(o.toString());
-        }
+        list.forEach(System.out::println);
     }
 
     private static void printCommand() {

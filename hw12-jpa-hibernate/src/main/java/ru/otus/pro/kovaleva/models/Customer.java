@@ -20,7 +20,7 @@ public class Customer {
 
     private String name;
 
-    @OneToMany(mappedBy = "customer", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
     private List<Order> orders;
 
     @Override

@@ -9,6 +9,6 @@ public interface EntityService<T> {
 
     T printById(Long id);
 
-    void deleteById(Long id);
+    boolean deleteById(Long id);
 
 }

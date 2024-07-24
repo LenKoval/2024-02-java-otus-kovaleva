@@ -1,6 +1,8 @@
 package ru.otus.pro.kovaleva.services;
 
 import lombok.AllArgsConstructor;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.hibernate.SessionFactory;
 import ru.otus.pro.kovaleva.models.Product;
 import ru.otus.pro.kovaleva.util.EntityUtil;
@@ -12,12 +14,20 @@ public class ProductServiceImpl implements EntityService<Product> {
 
     private SessionFactory sessionFactory;
 
+    private static final Logger logger = LogManager.getLogger(ProductServiceImpl.class);
+
 
     @Override
     public Product save(String name, String price) {
         Product product = new Product();
         product.setName(name);
-        product.setPrice(Double.parseDouble(price));
+        try {
+            product.setPrice(Double.parseDouble(price));
+        } catch (NumberFormatException e) {
+            logger.error("Invalid price format: {}", price, e);
+            throw e;
+        }
+
         EntityUtil.insert(sessionFactory, product);
         return product;
     }
@@ -33,7 +43,7 @@ public class ProductServiceImpl implements EntityService<Product> {
     }
 
     @Override
-    public void deleteById(Long id) {
-        EntityUtil.deleteById(sessionFactory, Product.class, id);
+    public boolean deleteById(Long id) {
+        return EntityUtil.deleteById(sessionFactory, Product.class, id);
     }
 }

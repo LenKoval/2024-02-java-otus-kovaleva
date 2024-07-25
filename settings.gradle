@@ -8,4 +8,5 @@ include 'hw06-patterns02'
 include 'hw09-spring-context'
 include 'hw11-spring-boot'
 include 'hw12-jpa-hibernate'
+include 'hw13-hibernate-lesson-jpql'
 

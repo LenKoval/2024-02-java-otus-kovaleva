@@ -54,7 +54,7 @@ public class JavaBasedSessionFactory {
         properties.put("hibernate.connection.url", "jdbc:h2:~/test");
         properties.put("hibernate.connection.username", "sa");
         properties.put("hibernate.connection.password", "");
-        properties.put("hibernate.hbm2ddl.auto", "create");
+        properties.put("hibernate.hbm2ddl.auto", "update");
         properties.put("hibernate.show_sql", "true");
         properties.put("hibernate.format_sql", "true");
         properties.put("hibernate.current_session_context_class", "thread");
